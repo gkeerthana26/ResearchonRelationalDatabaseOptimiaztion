@@ -1,0 +1,47 @@
+REQUIRED INSTALLATION
+MySQLShell
+MySQL Router
+
+
+
+Following steps are done in MySQL shell
+STEPS
+1. Deploy sandbox instance
+
+dba.deploySandboxInstance(3306)
+dba.deploySandboxInstance(3307)
+dba.deploySandboxInstance(3308)
+
+2. Intialize cluster
+
+shell.connect("root@localhost:3306")
+dba.createCluster("covidCluster")
+
+root - database username
+localhost - database host
+covidCluster - cluster name
+
+3. Add instances to cluster
+
+cluster = dba.getCluster()
+cluster.addInstance(root@localhost:3307")
+cluster.addInstance(root@localhost:3308")
+
+Check cluster status
+cluster.status()
+
+4. Deploy MySQL router
+
+mysqlrouter --bootstrap localhost:3306 --directory covidrouter
+covidrouter - routername
+
+5. Start the router
+
+covidrouter/start.sh
+
+mysqlsh --uri root@localhost:6446
+6446 - while deploying router this port came as the port where the router is connected to 
+
+To check the connected instance:
+select @@port
+
